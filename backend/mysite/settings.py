@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'taggit',
+    'accounts.apps.AccountsConfig',
     'blog.apps.BlogConfig',
 ]
 
@@ -129,3 +130,5 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 TAGGIT_CASE_INSENSITIVE = True
+
+AUTH_USER_MODEL = 'accounts.User'
