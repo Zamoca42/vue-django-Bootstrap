@@ -11,4 +11,5 @@ class PostLV(ListView):
 
 class PostDV(DetailView):
     model = Post
+    template_name = 'blog/post_detail.html'
 
