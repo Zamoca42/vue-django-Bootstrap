@@ -48,6 +48,11 @@ SECRET_KEY = get_secret("SECRET_KEY")
 # Application definition
 
 INSTALLED_APPS = [
+    # app
+    'accounts.apps.AccountsConfig',
+    'blog.apps.BlogConfig',
+    'api.apps.ApiConfig',
+    # base
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,8 +60,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'taggit',
-    'accounts.apps.AccountsConfig',
-    'blog.apps.BlogConfig',
 ]
 
 MIDDLEWARE = [
