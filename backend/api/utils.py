@@ -13,14 +13,8 @@ def obj_to_post(obj):
     # = models.ForeignKey('Category', on_delete=models.SET_NULL, blank=True, null=True)
     if obj.image:
         post['image'] = obj.image.url
-        # if obj.image.url == '':
-        #     del post['image']
-        #     post['iamge'] = 'https://via.placeholder.com/900x400/'
     else:
-        del post['image']
-        post['iamge'] = 'https://via.placeholder.com/900x400/'
-    
-    # = models.ImageField('IMAGE', upload_to='blog/%Y/%m/', blank=True, null=True)
+        post['image'] = 'https://via.placeholder.com/900x400/'
 
     if obj.modify_dt:
         post['modify_dt'] = obj.modify_dt.strftime('%B %d, %Y')
