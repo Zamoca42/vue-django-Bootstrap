@@ -1,7 +1,10 @@
-def obj_to_post(obj):
+def obj_to_post(obj, flag=True):
     """
     obj의 각 속성을 serialize 해서, dict로 변환한다.
     serialize: python object --> (기본 타입) int, float, str
+    :param obj:
+    :param flag: True (모두 보냄, /api/post/99/ 용), False (일부 보냄, /api/post/list/ 용)
+    :return;
     """
     post = dict(vars(obj))
 
@@ -14,7 +17,7 @@ def obj_to_post(obj):
     if obj.image:
         post['image'] = obj.image.url
     else:
-        post['image'] = 'https://via.placeholder.com/900x400/'
+        post['image'] = 'https://via.placeholder.com/900x300/'
 
     if obj.modify_dt:
         post['modify_dt'] = obj.modify_dt.strftime('%B %d, %Y')
@@ -24,4 +27,6 @@ def obj_to_post(obj):
     # = models.DateTimeField('MODIFY DATE', auto_now=True)
 
     del post['_state'], post['category_id'], post['create_dt']
+    if not flag:
+        del post['modify_dt'], post['description'], post['content']
     return post
