@@ -2,37 +2,57 @@
 <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
 
 <script>
-    // const { createApp } = Vue
+  // const { createApp } = Vue
 
-    const PostListApp = ({
-        delimiters: ['[[', ']]'],
-        data() {
-            return {
-                postList: [],
-            }
-        },
+  const PostListApp = {
+    delimiters: ["[[", "]]"],
+    data() {
+      return {
+        postList: [],
+        cateList: [],
+        // tagList: [],
+      };
+    },
 
-        created() {
-            console.log("created()...");
-            this.fetchPostList();
-        },
+    created() {
+      console.log("created()...");
+      this.fetchPostList();
+      this.fetchCateTagList();
+    },
 
-        methods: {
-            fetchPostList() {
-                console.log("FetchPostList()...");
+    methods: {
+      fetchPostList() {
+        console.log("FetchPostList()...");
 
-                axios.get('/api/post/list/')
-                    .then(res => {
-                        console.log("FETCH POSTLIST GET RES", res);
-                        this.postList = res.data;
-                    })
-                    .catch(err => {
-                        console.log("FETCH POSTLIST GET ERR.RESPONSE", err.response);
-                        alert(`${err.response.status} ${err.response.statusText}`);
-                    });
-            }
-        },
-    })
+        axios
+          .get("/api/post/list/")
+          .then((res) => {
+            console.log("FETCH POSTLIST GET RES", res);
+            this.postList = res.data;
+          })
+          .catch((err) => {
+            console.log("FETCH POSTLIST GET ERR.RESPONSE", err.response);
+            alert(`${err.response.status} ${err.response.statusText}`);
+          });
+      },
 
-    Vue.createApp(PostListApp).mount('#page-top')
+      fetchCateTagList() {
+        console.log("fetchCateTagList()...");
+
+        axios
+          .get(`/api/catetag`)
+          .then((res) => {
+            console.log("FETCH CATE-TAG-LIST GET RES", res);
+            this.cateList = res.data.cateList;
+            // this.tagList = res.data.tagList;
+          })
+          .catch((err) => {
+            console.log("FETCH CATE-TAG-LIST GET ERR.RESPONSE", err.response);
+            alert(`${err.response.status} ${err.response.statusText}`);
+          });
+      },
+    },
+  };
+
+  Vue.createApp(PostListApp).mount("#page-top");
 </script>
