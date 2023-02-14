@@ -9,9 +9,11 @@
         height: 300px;
         object-fit: cover;
     }
-
     .my-content {
         white-space: pre-wrap;
+    }
+    .my-link:hover {
+        cursor: pointer;
     }
 </style>
 {% endblock %}
@@ -58,10 +60,20 @@
             <!-- Side widgets-->
             <!-- Pagination-->
             <div class="row">
-                <p class="text-muted text-center">
-                    <a> << Prev </a>
-                    <a> Next >> </a>
-                </p>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link my-link" @click="fetchPostDetail(prevPost.id)" aria-label="Previous">
+                                <span aria-hidden="true">&laquo; Prev</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link my-link" @click="fetchPostDetail(nextPost.id)" aria-label="Next">
+                                <span aria-hidden="true">Next &raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
