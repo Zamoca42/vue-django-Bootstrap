@@ -1,11 +1,10 @@
 from django.http import JsonResponse
 from django.views.generic.list import BaseListView
 from django.views.generic.detail import BaseDetailView
+from django.views import View
 
 from api.utils import obj_to_post, prev_next_post
-from blog.models import Post
-
-from blog.models import Post
+from blog.models import Post, Category
 
 class ApiPostLV(BaseListView):
     model = Post
@@ -29,6 +28,18 @@ class ApiPostDV(BaseDetailView):
             'prevPost': prevPost,
             'nextPost': nextPost,
         }
+        return JsonResponse(data=jsonData, safe=True, status=200)
+
+class ApiCateTagView(View):
+    def get(self, request, *args, **kwargs):
+        qs1 = Category.objects.all()
+
+        cateList = [cate.name for cate in qs1]
+
+        jsonData = {
+            'cateList': cateList,
+        }
+    
         return JsonResponse(data=jsonData, safe=True, status=200)
 
 
