@@ -11,21 +11,27 @@
         postList: [],
         cateList: [],
         // tagList: [],
+        category: '',
       };
     },
 
     created() {
       console.log("created()...");
+      const params = new URL(location).searchParams;
+      this.category = params.get('category');
       this.fetchPostList();
       this.fetchCateTagList();
     },
 
     methods: {
       fetchPostList() {
-        console.log("FetchPostList()...");
+        console.log("FetchPostList()...", this.category, this.tag);
+        let getUrl = '';
+        if (this.category) getUrl = `/api/post/list/?category=${this.category}`
+        else getUrl = '/api/post/list';
 
         axios
-          .get("/api/post/list/")
+          .get(getUrl)
           .then((res) => {
             console.log("FETCH POSTLIST GET RES", res);
             this.postList = res.data;
@@ -51,6 +57,12 @@
             alert(`${err.response.status} ${err.response.statusText}`);
           });
       },
+    
+      serverPage(category) {
+        console.log("serverPage()...", category);
+        if (category) location.href = `/?category=${category}#portfolio`;
+        else location.href = '/#portfolio'
+      }
     },
   };
 

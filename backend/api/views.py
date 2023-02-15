@@ -9,6 +9,14 @@ from blog.models import Post, Category
 class ApiPostLV(BaseListView):
     model = Post
 
+    def get_queryset(self):
+        paramCate = self.request.GET.get('category')
+        if paramCate:
+            qs = Post.objects.filter(category__name__iexact=paramCate)
+        else:
+            qs = Post.objects.all()
+        return qs
+
     def render_to_response(self, context, **response_kwargs):
         qs = context['object_list']
         postList = [obj_to_post(obj, False) for obj in qs]
