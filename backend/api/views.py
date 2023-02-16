@@ -7,7 +7,8 @@ from api.utils import obj_to_post, prev_next_post
 from blog.models import Post, Category
 
 class ApiPostLV(BaseListView):
-    model = Post
+    #model = Post
+    paginate_by = 3
 
     def get_queryset(self):
         paramCate = self.request.GET.get('category')
@@ -20,7 +21,16 @@ class ApiPostLV(BaseListView):
     def render_to_response(self, context, **response_kwargs):
         qs = context['object_list']
         postList = [obj_to_post(obj, False) for obj in qs]
-        return JsonResponse(data=postList, safe=False, status=200)
+
+        pageCnt = context['paginator'].num_pages
+        curPage = context['page_obj'].number
+
+        jsonData = {
+            'postList': postList,
+            'pageCnt': pageCnt,
+            'curPage': curPage,
+        }
+        return JsonResponse(data=jsonData, safe=True, status=200)
 
 
 class ApiPostDV(BaseDetailView):

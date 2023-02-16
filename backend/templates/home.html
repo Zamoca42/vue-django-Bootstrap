@@ -15,6 +15,10 @@
     .my-post-title {
         height: 60px;
     }
+
+    .my-link:hover {
+        cursor: pointer;
+    }
 </style>
 {% endblock %}
 
@@ -48,23 +52,24 @@
             </div>
         </div>
 
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        <!-- Pagination -->
+        <ul class="pagination justify-content-center">
+            <li :class="prevClass">
+                <div @click="prevPage" class="page-link">
+                    <span>&laquo;</span>
+                </div>
+            </li>
+
+            <li v-for="page in pages" :class="pageClass(page)">
+                <div @click="pageChanged(page)" class="page-link">[[ page ]]</div>
+            </li>
+
+            <li :class="nextClass">
+                <div @click="nextPage" class="page-link">
+                    <span>&raquo;</span>
+                </div>
+            </li>
+        </ul>
     </div>
 </section>
 
@@ -109,5 +114,5 @@
 {% endblock %}
 
 {% block extra-script %}
-    {% include 'include/post_list_vue.html' %}
+{% include 'include/post_list_vue.html' %}
 {% endblock %}
