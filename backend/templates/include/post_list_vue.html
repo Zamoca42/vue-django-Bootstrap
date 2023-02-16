@@ -3,6 +3,7 @@
 
 <script>
   // const { createApp } = Vue
+  const myJson = JSON.parse("{{ myJson|escapejs }}");
 
   const PostListApp = {
     delimiters: ["[[", "]]"],
@@ -51,8 +52,12 @@
       console.log("created()...");
       const params = new URL(location).searchParams;
       this.category = params.get("category");
-      this.fetchPostList();
+      // this.fetchPostList();
       this.fetchCateTagList();
+      this.postList = myJson.postList;
+      this.pageCnt = myJson.pageCnt;
+      this.curPage = myJson.curPage;
+      this.cateList = myJson.cateList
     },
 
     methods: {
