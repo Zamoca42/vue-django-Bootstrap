@@ -5,6 +5,8 @@
 <script>
   // const { createApp } = Vue
 
+  const myJson = JSON.parse('{{ myJson|escapejs }}');
+
   const PostDetailApp = {
     delimiters: ["[[", "]]"],
     data() {
@@ -17,8 +19,11 @@
 
     created() {
       console.log("created()...");
-      const postId = location.pathname.split("/")[3];
-      this.fetchPostDetail(postId);
+      // const postId = location.pathname.split("/")[3];
+      // this.fetchPostDetail(postId);
+      this.post = myJson.post;
+      this.prevPost = myJson.prevPost;
+      this.nextPost = myJson.nextPost;
     },
 
     methods: {
