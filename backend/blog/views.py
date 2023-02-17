@@ -15,9 +15,11 @@ import json
 #     template_name = 'blog/post_detail.html'
 
 class PostDV(DetailView):
-    model = Post
     template_name = 'blog/post_detail.html'
 
+    def get_queryset(self):
+        return post.objects.all().select_related('category')
+        
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
 

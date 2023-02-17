@@ -34,7 +34,10 @@ class ApiPostLV(BaseListView):
 
 
 class ApiPostDV(BaseDetailView):
-    model = Post
+    # model = Post
+
+    def get_queryset(self):
+        return post.objects.all().select_related('category')
 
     def render_to_response(self, context, **response_kwargs):
         obj = context['object']

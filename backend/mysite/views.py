@@ -17,7 +17,7 @@ class HomeView(ListView):
             qs = Post.objects.filter(category__name__iexact=paramCate)
         else:
             qs = Post.objects.all()
-        return qs
+        return qs.select_related('category')
     
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
