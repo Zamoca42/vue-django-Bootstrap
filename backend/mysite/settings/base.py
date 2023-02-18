@@ -49,9 +49,13 @@ SECRET_KEY = get_secret("SECRET_KEY")
 
 INSTALLED_APPS = [
     # app
-    'accounts.apps.AccountsConfig',
+    # 'accounts.apps.AccountsConfig',
     'blog.apps.BlogConfig',
     'api.apps.ApiConfig',
+    'api2.apps.Api2Config',
+    # 3rd-party
+    'rest_framework',
+    # 'taggit',
     # base
     'django.contrib.admin',
     'django.contrib.auth',
@@ -59,7 +63,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'taggit',
 ]
 
 MIDDLEWARE = [
@@ -155,4 +158,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 TAGGIT_CASE_INSENSITIVE = True
 
-AUTH_USER_MODEL = 'accounts.User'
+# AUTH_USER_MODEL = 'accounts.User'
+
+# DRF
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
