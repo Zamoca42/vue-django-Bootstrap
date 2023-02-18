@@ -1,14 +1,29 @@
-from rest_framework import viewsets
-from django.contrib.auth.models import User
+# from rest_framework import viewsets
+# from django.contrib.auth.models import User
 
-from api2.serializers import UserSerializer, PostSerializer
+# from api2.serializers import UserSerializer, PostSerializer
+# from blog.models import Post
+
+# # ViewSets define the view behavior.
+# class UserViewSet(viewsets.ModelViewSet):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+
+# class PostViewSet(viewsets.ModelViewSet):
+#     queryset = Post.objects.all()
+#     serializer_class = PostSerializer
+# --------------------------------------------
+
+# generic view
+
+from api2.serializers import PostListSerializer, PostRetrieveSerializer
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from blog.models import Post
 
-# ViewSets define the view behavior.
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-class PostViewSet(viewsets.ModelViewSet):
+class PostListAPIView(ListAPIView):
     queryset = Post.objects.all()
-    serializer_class = PostSerializer
+    serializer_class = PostListSerializer
+
+class PostRetrieveAPIView(RetrieveAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostRetrieveSerializer
