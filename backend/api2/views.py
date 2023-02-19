@@ -16,10 +16,11 @@
 
 # generic view
 
-from api2.serializers import PostListSerializer, PostRetrieveSerializer, PostLikeSerializer
+from api2.serializers import PostListSerializer, PostRetrieveSerializer, PostLikeSerializer, CateTagSerializer
 from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView
-from blog.models import Post
+from blog.models import Post, Category, Tag
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 class PostListAPIView(ListAPIView):
     queryset = Post.objects.all()
@@ -32,7 +33,8 @@ class PostRetrieveAPIView(RetrieveAPIView):
 class PostLikeAPIView(UpdateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostLikeSerializer
-
+    
+    # PATCH Method
     def update(self, request, *args, **kwargs):
       partial = kwargs.pop('partial', False)
       instance = self.get_object()
@@ -48,3 +50,15 @@ class PostLikeAPIView(UpdateAPIView):
           instance._prefetched_objects_cache = {}
 
       return Response(data['like'])
+
+class CateTagAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        cateList = Category.objects.all()
+        tagList = Tag.objects.all()
+        data = {
+            'cateList': cateList,
+            'tagList': tagList,
+        }
+
+        serializer = CateTagSerializer(instance=data)
+        return Response(serializer.data)
