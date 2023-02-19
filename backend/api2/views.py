@@ -16,7 +16,7 @@
 
 # generic view
 
-from api2.serializers import PostListSerializer, PostRetrieveSerializer, CateTagSerializer
+from api2.serializers import PostListSerializer, PostRetrieveSerializer, CateTagSerializer, PostSerializerDetail 
 from rest_framework.generics import ListAPIView, RetrieveAPIView, GenericAPIView
 from rest_framework.pagination import PageNumberPagination
 from blog.models import Post, Category, Tag
@@ -28,9 +28,9 @@ from collections import OrderedDict
 #     queryset = Post.objects.all()
 #     serializer_class = PostListSerializer
 
-class PostRetrieveAPIView(RetrieveAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostRetrieveSerializer
+# class PostRetrieveAPIView(RetrieveAPIView):
+#     queryset = Post.objects.all()
+#     serializer_class = PostRetrieveSerializer
 
 # class PostLikeAPIView(UpdateAPIView):
 #     queryset = Post.objects.all()
@@ -93,6 +93,44 @@ class PostListAPIView(ListAPIView):
     serializer_class = PostListSerializer
     pagination_class = PostPageNumberPagination
 
+    def get_serializer_context(self):
+      """
+      Extra context provided to the serializer class.
+      """
+      return {
+          'request': None,
+          'format': self.format_kwarg,
+          'view': self
+      }
+
+def get_prev_next(instance):
+    try:
+        prev = instance.get_previous_by_modify_dt()
+    except instance.DoesNotExist:
+        prev = None
+    
+    try:
+        next_ = instance.get_next_by_modify_dt()
+    except instance.DoesNotExist:
+        next_ = None
+    
+    return prev, next_
+
+class PostRetrieveAPIView(RetrieveAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializerDetail
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        prevInstance, nextInstance = get_prev_next(instance)
+        data = {
+            'post': instance,
+            'prevPost': prevInstance,
+            'nextPost': nextInstance,
+        }
+        serializer = self.get_serializer(instance=data)
+        return Response(serializer.data)
+    
     def get_serializer_context(self):
       """
       Extra context provided to the serializer class.
