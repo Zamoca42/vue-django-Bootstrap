@@ -1,4 +1,4 @@
-# vue-django-blog(작성중)
+# vue-django-bootstrap(작성중)
 
 ## 장고 베이스 만들기
 
@@ -35,4 +35,5 @@
       ![스크린샷 2023-02-06 오후 9 47 06](https://user-images.githubusercontent.com/96982072/216975941-3dc93b9b-4286-41f5-aa46-960b04386c4a.png)
 
 - https://djangopackages.org/
-
+- https://www.cdrf.co/
+- https://ccbv.co.uk/
