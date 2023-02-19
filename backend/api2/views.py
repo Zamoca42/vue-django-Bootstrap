@@ -16,7 +16,7 @@
 
 # generic view
 
-from api2.serializers import PostListSerializer, PostRetrieveSerializer
+from api2.serializers import PostListSerializer, PostRetrieveSerializer, PostLikeSerializer
 from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView
 from blog.models import Post
 from rest_framework.response import Response
@@ -31,11 +31,12 @@ class PostRetrieveAPIView(RetrieveAPIView):
 
 class PostLikeAPIView(UpdateAPIView):
     queryset = Post.objects.all()
-    serializer_class = PostListSerializer
+    serializer_class = PostLikeSerializer
 
     def update(self, request, *args, **kwargs):
       partial = kwargs.pop('partial', False)
       instance = self.get_object()
+    #   data = instance.like + 1
       data = {'like': instance.like + 1}
       serializer = self.get_serializer(instance, data=data, partial=partial)
       serializer.is_valid(raise_exception=True)
@@ -46,4 +47,4 @@ class PostLikeAPIView(UpdateAPIView):
           # forcibly invalidate the prefetch cache on the instance.
           instance._prefetched_objects_cache = {}
 
-      return Response(serializer.data)
+      return Response(data['like'])
