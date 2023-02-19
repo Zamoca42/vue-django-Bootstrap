@@ -18,13 +18,15 @@
 
 from api2.serializers import PostListSerializer, PostRetrieveSerializer, CateTagSerializer
 from rest_framework.generics import ListAPIView, RetrieveAPIView, GenericAPIView
+from rest_framework.pagination import PageNumberPagination
 from blog.models import Post, Category, Tag
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from collections import OrderedDict
 
-class PostListAPIView(ListAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostListSerializer
+# class PostListAPIView(ListAPIView):
+#     queryset = Post.objects.all()
+#     serializer_class = PostListSerializer
 
 class PostRetrieveAPIView(RetrieveAPIView):
     queryset = Post.objects.all()
@@ -74,3 +76,29 @@ class PostLikeAPIView(GenericAPIView):
         instance.save()
 
         return Response(instance.like)
+
+class PostPageNumberPagination(PageNumberPagination):
+    page_size = 3
+    # page_size_query_param = 'page_size'
+    # max_page_size = 1000
+    def get_paginated_response(self, data):
+      return Response(OrderedDict([
+          ('postList', data),
+          ('pageCnt', self.page.paginator.num_pages),
+          ('curPage', self.page.number),
+      ]))
+
+class PostListAPIView(ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostListSerializer
+    pagination_class = PostPageNumberPagination
+
+    def get_serializer_context(self):
+      """
+      Extra context provided to the serializer class.
+      """
+      return {
+          'request': None,
+          'format': self.format_kwarg,
+          'view': self
+      }
